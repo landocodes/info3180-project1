@@ -4,14 +4,18 @@ Jinja2 Documentation:    https://jinja.palletsprojects.com/
 Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
-
-from app import app
-from flask import render_template, request, redirect, url_for
-
-
+import os
+from app import app, db
+from flask import render_template, request, redirect, url_for, flash, send_from_directory
+from werkzeug.utils import secure_filename
+from app.models import Properties
+from .form import PropertyForm
 ###
 # Routing for your application.
 ###
+UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 
 @app.route('/')
 def home():
@@ -19,17 +23,64 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/about/')
+@app.route('/about')
 def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
 
 
+@app.route('/properties/create', methods=['POST', 'GET'])
+def create_property():
+    form = PropertyForm()
+    if form.validate_on_submit():
+        # Save the photo file
+        photo = form.photo_filename.data
+        filename = secure_filename(photo.filename)
+        photo.save(os.path.join(
+            app.config['UPLOAD_FOLDER'], filename))
+
+        # Save form data to database
+        new_property = Properties(
+            title=form.title.data,
+            bedrooms=form.bedrooms.data,
+            bathrooms=form.bathrooms.data,
+            location=form.location.data,
+            price=form.price.data,
+            property_type=form.property_type.data,
+            description=form.description.data,
+            photo_filename=filename
+        )
+        db.session.add(new_property)
+        db.session.commit()
+
+        flash('Property successfully added!', 'success')
+        return redirect(url_for('properties_list'))
+    return render_template('create_property.html', form=form)
+
+
+@app.route('/properties')
+def properties_list():
+    prop = Properties.query.all()
+    return render_template('properties_list.html', prop=prop)
+
+
+@app.route('/properties/<int:propertyid>')
+def view_property(propertyid):
+    property = Properties.query.filter_by(id=propertyid).first()
+    return render_template('property_details.html', property=property)
+
+
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    rootdir = os.getcwd()
+    return send_from_directory(os.path.join(rootdir, app.config['UPLOAD_FOLDER']), filename)
 ###
 # The functions below should be applicable to all Flask apps.
 ###
 
 # Display Flask WTF errors as Flash messages
+
+
 def flash_errors(form):
     for field, errors in form.errors.items():
         for error in errors:
@@ -37,6 +88,7 @@ def flash_errors(form):
                 getattr(form, field).label.text,
                 error
             ), 'danger')
+
 
 @app.route('/<file_name>.txt')
 def send_text_file(file_name):

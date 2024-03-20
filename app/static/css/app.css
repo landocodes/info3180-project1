@@ -1,3 +1,54 @@
 body {
     padding-top: 5rem;
+    background-color: rgba(216, 213, 213, 0.544);
 }
+
+nav{
+    background-color: #008B8B;
+}
+
+form{
+    max-width: 600px;
+    background-color: rgb(255, 255, 255);
+    padding-bottom: 20px;
+    border-radius: 5px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.custom-footer{
+    background-color: #008B8B;
+}
+
+.btn-secondary{
+    background-color: #008B8B;
+}
+
+.card {
+    height: 500px;
+    /* Adjust the height as needed */
+}
+
+.fixed-height-img {
+    height: 300px;
+    /* Adjust the height as needed */
+    object-fit: cover;
+}
+
+.badge{
+    padding: 10px;
+}
+
+.img-height{
+    background-size: cover;
+    overflow: hidden;
+    height: 10;
+}
+
+.property-form{
+    padding: 20px;
+    padding-right: 100px;
+}
+

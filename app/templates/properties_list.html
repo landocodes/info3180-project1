@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block main %}
+
+<h1>Properties</h1>
+{% include 'flashes.html' %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for prop in prop %}
+  <div class="col">
+    <div class="card">
+      <img
+        src="{{ url_for('get_image', filename= prop.photo_filename) }}"
+        class="card-img-top fixed-height-img"
+        alt="Property Image"
+      />
+      <div class="card-body shadow-sm">
+        <h5 class="card-title">{{ prop.title }}</h5>
+        <p class="card-text text-muted">
+          <i class="bi bi-geo-alt"></i>
+          {{ prop.location }}
+        </p>
+        <span class="badge bg-danger rounded-pill">${{ prop.price }}</span>
+      </div>
+      <div class="card-footer text-center custom-footer">
+        <a class="text-white" href="{{ url_for('view_property', propertyid=prop.id) }}">View Property</a>
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

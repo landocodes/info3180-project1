@@ -1,0 +1,64 @@
+{% extends "base.html" %} 
+{% block main %}
+
+
+<h1 class="page-header mb-3">Add New Property</h1>
+
+<form class="row g-3 property-form" action="{{url_for('create_property')}}" method="post" enctype="multipart/form-data" >
+    {{ form.csrf_token }}
+
+    <div class="col-12">
+        {{ form.title.label(class="font-weight-bold") }}
+        {{ form.title(class="form-control text-muted")}}
+    </div>
+
+    <div class="col-12">
+        {{ form.description.label(class="f-label font-weight-bold")}}
+        {{ form.description(class="form-control text-muted")}}
+    </div>
+
+    <div class="col-md-6 form-group pr-6">
+        {{ form.bedrooms.label(class="f-label font-weight-bold")}}
+        {{ form.bedrooms(class="form-control text-muted")}}
+    </div>
+    
+     <div class="col-md-6">
+        {{ form.bathrooms.label(class="f-label font-weight-bold")}}
+        {{ form.bathrooms(class="form-control text-muted")}}
+     </div> 
+        
+      
+   
+
+
+    <div class="col-md-6 form-group">
+        {{ form.price.label(class="f-label font-weight-bold")}}
+        {{ form.price(class="form-control text-muted")}}
+              
+    </div>
+    <div class="col-md-6">
+        {{ form.property_type.label(class="f-label font-weight-bold")}}
+        {{ form.property_type(class="form-control text-muted")}}
+    </div>
+        
+
+ 
+
+    <div class="col-md-6">
+        {{ form.location.label(class="f-label font-weight-bold")}}
+        {{ form.location(class="form-control")}}
+    </div>
+    <br/>
+
+    <div class="col-md-8">
+        {{ form.photo_filename.label(class="f-label font-weight-bold")}}
+        {{ form.photo_filename }}
+    </div>
+
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">Add Property</button>
+    </div>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block main %} {% include 'flashes.html' %}
+
+<div class="card mb-3" style="max-width: 540px">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img
+        class="card-img-top"
+        src="{{ url_for('get_image', filename= result.img) }}"
+        alt="Property Image"
+      />
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ result.title }}</h5>
+        <div class="price-type">
+          <span class="badge">{{ result.price }}</span>
+          <span class="badge badge-y">{{ result.property_type }}</span>
+        </div>
+        <br />
+        <p class="card-text">{{ result.description }}</p>
+        <div class="rooms">
+          <p>
+            <i class="fa-solid fa-bed"></i>
+            {{ result.bedrooms }} Bedrooms
+          </p>
+          &nbsp;&nbsp;&nbsp;
+          <p>
+            <i class="fa-solid fa-bath"></i>
+            {{ result.bathrooms }} Bathrooms
+          </p>
+        </div>
+        <p>
+          <i class="bi bi-geo-alt"></i>
+          {{ result.location}}
+        </p>
+        <button class="btn btn-m" type="submit">Email Realtor</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
