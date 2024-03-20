@@ -8,7 +8,7 @@ import os
 from app import app, db
 from flask import render_template, request, redirect, url_for, flash, send_from_directory
 from werkzeug.utils import secure_filename
-from app.models import Properties
+from app.models import Property
 from .form import PropertyForm
 ###
 # Routing for your application.
@@ -40,7 +40,7 @@ def create_property():
             app.config['UPLOAD_FOLDER'], filename))
 
         # Save form data to database
-        new_property = Properties(
+        new_property = Property(
             title=form.title.data,
             bedrooms=form.bedrooms.data,
             bathrooms=form.bathrooms.data,
@@ -60,15 +60,14 @@ def create_property():
 
 @app.route('/properties')
 def properties_list():
-    prop = Properties.query.all()
+    prop = Property.query.all()
     return render_template('properties_list.html', prop=prop)
 
 
 @app.route('/properties/<int:propertyid>')
 def view_property(propertyid):
-    property = Properties.query.filter_by(id=propertyid).first()
+    property = Property.query.filter_by(id=propertyid).first()
     return render_template('property_details.html', property=property)
-
 
 @app.route('/uploads/<filename>')
 def get_image(filename):

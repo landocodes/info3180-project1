@@ -1,53 +1,31 @@
 {% extends "base.html" %} 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/app2.css')}}" />
-<style>
-    .card {
-        max-width: 1000px;
-        height: 400px;
-        overflow: hidden; /* Prevents content overflow */
-    }
-
-    .card-img-container {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    .card-img-container img {
-        width: auto;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .card-body {
-        overflow-y: auto; /* Enable vertical scrolling for overflowing content */
-        max-height: calc(100% - 10px); /* Adjust the value according to your design */
-    }
-</style>
 {% endblock %} 
 {% block main %} 
 {% include 'flashes.html' %}
-
-<div class="card mb-3">
+<div class="py-5">
+<div class="card mb-3 h-100 " style="max-width: 800px">
   <div class="row g-0">
-    <div class="col-md-6 card-img-container">
+    <div class="col-md-6">
       <img
-        class="img-fluid"
+        class="img-fluid h-100"
         src="{{ url_for('get_image', filename= property.photo_filename) }}"
         alt="Property Image"
       />
     </div>
     <div class="col-md-6">
       <div class="card-body">
-        <h5 class="card-title">{{ property.title }}</h5>
+        <h5 class="card-title mb-3">{{ property.title }}</h5>
         <div class="price-type ">
-          <span class="badge bg-info rounded-pill">${{ property.price }}</span>
+          <span class="badge bg-danger rounded-pill">{{ property.price }}</span>
+          &nbsp;
           <span class="badge bg-warning rounded-pill">{{ property.property_type }}</span>
         </div>
         <br />
         <p class="card-text">{{ property.description }}</p>
         <div class="rooms mb-3">
-          <p class="d-inline"><i class="fa fa-bed"></i>{{ property.bedrooms }} Bedrooms</p>
+          <p class="d-inline"><i class="fa fa-bed"></i> {{ property.bedrooms }} Bedrooms</p>
           &nbsp;&nbsp;&nbsp;
           <p class="d-inline">
             <i class="fa fa-bath"></i>
@@ -64,6 +42,8 @@
       </div>
     </div>
   </div>
+</div>
+
 </div>
 
 {% endblock %}
